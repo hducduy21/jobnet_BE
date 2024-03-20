@@ -1,0 +1,49 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: wishlist
+
+  cloud:
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+
+    config:
+      uri: http://configserver:password@config-server-service:8888
+
+  config:
+    import: "optional:config:"
+
+  data:
+    mongodb:
+      authentication-database: admin
+      username: root
+      password: password
+      host: mongodb-service
+      port: 27017
+      database: wishlist
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://e8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://zipkin-service:9411/api/v2/spans

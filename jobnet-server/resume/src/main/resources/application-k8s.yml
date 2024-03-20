@@ -1,0 +1,55 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: resume
+
+  cloud:
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+
+    config:
+      uri: http://configserver:password@localhost:8888
+
+  config:
+    import: "optional:config:"
+
+  data:
+    mongodb:
+      authentication-database: admin
+      username: root
+      password: password
+      host: mongodb-service
+      port: 27017
+      database: resume
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+  mvc:
+    format:
+      date: dd/MM/yyyy
+      date-time: dd/MM/yyyy HH:mm:ss
+      time: HH:mm:ss
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server-service:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://zipkin-service:9411/api/v2/spans

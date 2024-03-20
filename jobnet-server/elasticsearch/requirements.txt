@@ -1,0 +1,7 @@
+django == 4.2.5
+djangorestframework == 3.14.0
+langchain
+elasticsearch
+rank_bm25
+sentence_transformers
+django-cors-headers

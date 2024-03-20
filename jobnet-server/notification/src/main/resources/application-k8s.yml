@@ -1,0 +1,66 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: notification
+
+  cloud:
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+
+    config:
+      uri: http://configserver:password@config-server-service:8888
+
+  config:
+    import: "optional:config:"
+
+  data:
+    mongodb:
+      authentication-database: admin
+      username: root
+      password: password
+      host: mongodb-service
+      port: 27017
+      database: notification
+
+  kafka:
+    bootstrap-servers: kafka-service:9092
+
+  mail:
+    host: maildev-service
+    port: 1025
+    username: hello
+    password: hello
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server-service:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://zipkin-service:9411/api/v2/spans

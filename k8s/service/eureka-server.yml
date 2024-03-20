@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-server
+  labels:
+    app: eureka-server
+spec:
+  selector:
+    matchLabels:
+      app: eureka-server
+  template:
+    metadata:
+      labels:
+        app: eureka-server
+    spec:
+      containers:
+        - name: eureka-server
+          image: duycoiz1204/jobnet-ipj-eureka-server:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8761
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-server-service
+  labels:
+    app: eureka-server
+spec:
+  selector:
+    app: eureka-server
+  type: LoadBalancer
+  ports:
+    - port: 8761
+      targetPort: 8761

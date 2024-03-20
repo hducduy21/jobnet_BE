@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location
+  labels:
+    app: location
+spec:
+  selector:
+    matchLabels:
+      app: location
+  template:
+    metadata:
+      labels:
+        app: location
+    spec:
+      containers:
+        - name: location
+          image: duycoiz1204/jobnet-ipj-location:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8089
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: location-service
+  labels:
+    app: location
+spec:
+  selector:
+    app: location
+  ports:
+    - protocol: TCP
+      port: 8089
+      targetPort: 8089

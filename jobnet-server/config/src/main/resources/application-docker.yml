@@ -1,0 +1,14 @@
+encrypt:
+  key: ${ENCRYPT_KEY}
+
+server:
+  port: 8888
+
+spring:
+  kafka:
+    bootstrap-servers: kafka:29092
+
+  security:
+    user:
+      name: ${SECURITY_USER_NAME:config}
+      password: ${SECURITY_USER_PASSWORD:password}

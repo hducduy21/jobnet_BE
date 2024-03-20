@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maildev
+  labels:
+    app: maildev
+spec:
+  selector:
+    matchLabels:
+      app: maildev
+  template:
+    metadata:
+      labels:
+        app: maildev
+    spec:
+      containers:
+        - name: maildev
+          image: maildev/maildev
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          args: ["-s", "1025", "-w", "1080"]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: maildev-service
+  labels:
+    app: maildev
+spec:
+  selector:
+    app: maildev
+  type: ClusterIP
+  ports:
+    - name: smtp
+      protocol: TCP
+      port: 1025
+      targetPort: 1025
+    - name: http
+      protocol: TCP
+      port: 1080
+      targetPort: 1080

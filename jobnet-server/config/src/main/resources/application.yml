@@ -1,0 +1,43 @@
+encrypt:
+  key: ${ENCRYPT_KEY}
+
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config
+
+  cloud:
+    bus:
+      enabled: true
+
+    config:
+      server:
+        git:
+          uri: https://github.com/duycoiz1204/jobnet-ipj-config-server.git
+          username: ${CONFIG_GIT_USERNAME}
+          password: ${CONFIG_GIT_PASSWORD}
+          clone-on-start: true
+          search-paths:
+            - appl
+            - api-gateway
+            - business
+            - eureka
+            - location
+            - notification
+            - post
+            - resume
+            - user
+            - wishlist
+
+  security:
+    user:
+      name: ${SECURITY_USER_NAME:config}
+      password: ${SECURITY_USER_PASSWORD:password}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh, busenv, prometheus

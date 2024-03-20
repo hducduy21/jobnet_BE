@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business
+  labels:
+    app: business
+spec:
+  selector:
+    matchLabels:
+      app: business
+  template:
+    metadata:
+      labels:
+        app: business
+    spec:
+      containers:
+        - name: business
+          image: duycoiz1204/jobnet-ipj-business:latest
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8084
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: awss3-secret
+                  key: access_key_id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: awss3-secret
+                  key: secret_access_key
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: business-service
+  labels:
+    app: business
+spec:
+  selector:
+    app: business
+  ports:
+    - protocol: TCP
+      port: 8084
+      targetPort: 8084

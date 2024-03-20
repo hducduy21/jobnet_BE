@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: resume
+---
+spring:
+  config:
+    activate:
+      on-profile: "default"
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      username: ${CONFIG_USERNAME:config}
+      password: ${CONFIG_PASSWORD:password}
+---
+spring:
+  config:
+    activate:
+      on-profile: "docker"
+    import: "optional:configserver:"
+
+  cloud:
+    config:
+      uri: http://config:8888
+      searchPaths:
+        - ${application}/default
+        - ${application}/docker
+      username: ${CONFIG_USERNAME:config}
+      password: ${CONFIG_PASSWORD:password}

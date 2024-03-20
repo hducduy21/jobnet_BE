@@ -1,0 +1,53 @@
+global:
+  scrape_interval: 10s # Time for repeat  Scrape internal
+  evaluation_interval: 10s # evaluate rules
+
+scrape_configs:
+  - job_name: 'application_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8086']
+        labels:
+          application: 'Application Service Application'
+  - job_name: 'business_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8084']
+        labels:
+          application: 'Business Service Application'
+  - job_name: 'location-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8089']
+        labels:
+          application: 'Location Service Application'
+  - job_name: 'notification_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8088']
+        labels:
+          application: 'Notification Service Application'
+  - job_name: 'post_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8083' ]
+        labels:
+          application: 'Post Service Application'
+  - job_name: 'resume_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8085' ]
+        labels:
+          application: 'Resume Service Application'
+  - job_name: 'user_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8082' ]
+        labels:
+          application: 'User Service Application'
+  - job_name: 'wishlist_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8087' ]
+        labels:
+          application: 'Wishlist Service Application'

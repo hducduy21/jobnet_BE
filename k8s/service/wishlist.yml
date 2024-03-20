@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wishlist
+  labels:
+    app: wishlist
+spec:
+  selector:
+    matchLabels:
+      app: wishlist
+  template:
+    metadata:
+      labels:
+        app: wishlist
+    spec:
+      containers:
+        - name: wishlist
+          image: duycoiz1204/jobnet-ipj-wishlist:latest
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8087
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wishlist-service
+  labels:
+    app: wishlist
+spec:
+  selector:
+    app: wishlist
+  ports:
+    - protocol: TCP
+      port: 8087
+      targetPort: 8087

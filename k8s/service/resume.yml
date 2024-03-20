@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resume
+  labels:
+    app: resume
+spec:
+  selector:
+    matchLabels:
+      app: resume
+  template:
+    metadata:
+      labels:
+        app: resume
+    spec:
+      containers:
+        - name: resume
+          image: duycoiz1204/jobnet-ipj-resume:latest
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8085
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: awss3-secret
+                  key: access_key_id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: awss3-secret
+                  key: secret_access_key
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resume-service
+  labels:
+    app: resume
+spec:
+  selector:
+    app: resume
+  ports:
+    - protocol: TCP
+      port: 8085
+      targetPort: 8085
